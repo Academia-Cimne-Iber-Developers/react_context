@@ -1,4 +1,9 @@
-function NavMenu({ items, theme }) {
+import { useContext } from "react";
+import ThemeContext from "../contexts/ThemeContext";
+
+function NavMenu({ items }) {
+    const { theme } = useContext(ThemeContext);
+
     const backgroundClassName = "has-background-" + theme;
 
     let textClassName = "has-text-";

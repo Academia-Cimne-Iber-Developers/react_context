@@ -1,7 +1,11 @@
 import useFetch from "../../hooks/useFetch";
 import SongCard from "./SongCard";
+import { useContext } from "react";
+import ThemeContext from "../../contexts/ThemeContext";
 
-function SongList({ theme }) {
+function SongList() {
+    const { theme } = useContext(ThemeContext);
+
     const [songs, isError, isLoading] = useFetch(
         "https://sandbox.academiadevelopers.com/harmonyhub/songs/"
     );
@@ -17,7 +21,7 @@ function SongList({ theme }) {
                 <ul>
                     {songs.map((song) => (
                         <div key={song.id} className="column is-two-third">
-                            <SongCard song={song} theme={theme} />
+                            <SongCard song={song} />
                         </div>
                     ))}
                 </ul>

@@ -1,7 +1,11 @@
 import appLogo from "../assets/react.svg";
 import NavMenu from "./NavMenu";
+import { useContext } from "react";
+import ThemeContext from "../contexts/ThemeContext";
 
-function NavBar({ appName, theme, toggleTheme }) {
+function NavBar({ appName }) {
+    const { theme, toggleTheme } = useContext(ThemeContext);
+
     const backgroundClassName = "has-background-" + theme;
 
     let textClassName = "has-text-";
@@ -39,7 +43,6 @@ function NavBar({ appName, theme, toggleTheme }) {
                         { text: "About", url: "#about" },
                         { text: "Contact", url: "#contact" },
                     ]}
-                    theme={theme}
                 />
                 <button
                     className={`button is-small is-${

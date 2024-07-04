@@ -1,4 +1,9 @@
-function SongCard({ song, theme }) {
+import { useContext } from "react";
+import ThemeContext from "../../contexts/ThemeContext";
+
+function SongCard({ song }) {
+    const { theme } = useContext(ThemeContext);
+
     const backgroundClassName = "has-background-" + theme;
 
     let textClassName = "has-text-";
