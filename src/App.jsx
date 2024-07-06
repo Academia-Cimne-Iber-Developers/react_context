@@ -5,6 +5,8 @@ import SongList from "./components/MusicPlayer/SongList";
 
 import ThemeContext from "./contexts/ThemeContext";
 
+import Login from "./components/Auth/Login";
+
 function App() {
     const [theme, toggleTheme] = useTheme();
 
@@ -13,7 +15,11 @@ function App() {
             <ThemeContext.Provider value={{ theme, toggleTheme }}>
                 <NavBar appName={"React Examples"} />
                 <div className={`container`}>
-                    <SongList />
+                    {window.location.pathname === "/login" ? (
+                        <Login />
+                    ) : (
+                        <SongList />
+                    )}
                 </div>
                 <FooterBar
                     appName={"React Examples"}

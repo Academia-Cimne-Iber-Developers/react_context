@@ -29,29 +29,31 @@ function reducer(state, action) {
     }
 }
 
-function useFetch(url, options = {}) {
+function useFetch(url, options = {}, trigger = false) {
     const [state, dispatch] = useReducer(reducer, {
         isError: false,
         isLoading: true,
     });
 
     useEffect(() => {
-        dispatch({ type: ACTIONS.FETCH_INIT });
+        if (trigger) {
+            dispatch({ type: ACTIONS.FETCH_INIT });
 
-        fetch(url, { ...options })
-            .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw Error("Error al relizar la petición");
-            })
-            .then((data) => {
-                dispatch({ type: ACTIONS.FETCH_SUCCESS, payload: data });
-            })
-            .catch((e) => {
-                dispatch({ type: ACTIONS.FETCH_FAILURE });
-            });
-    }, [url]);
+            fetch(url, { ...options })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw Error("Error al relizar la petición");
+                })
+                .then((data) => {
+                    dispatch({ type: ACTIONS.FETCH_SUCCESS, payload: data });
+                })
+                .catch((e) => {
+                    dispatch({ type: ACTIONS.FETCH_FAILURE });
+                });
+        }
+    }, [url, trigger]);
 
     return state;
 }
