@@ -3,7 +3,9 @@ import SongCard from "./SongCard";
 
 function SongList() {
     const { data, isError, isLoading } = useFetch(
-        "https://sandbox.academiadevelopers.com/harmonyhub/songs/"
+        "https://sandbox.academiadevelopers.com/harmonyhub/songs/",
+        {},
+        true
     );
 
     if (isLoading) return <p>Cargando...</p>;
