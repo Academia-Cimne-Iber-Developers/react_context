@@ -6,7 +6,7 @@ function Login() {
     const [password, setPassword] = useState("");
     const [triggerFetch, setTriggerFetch] = useState(false);
 
-    const { data, isError, isLoading } = useFetch(
+    const [{ data, isError, isLoading }, doFetch] = useFetch(
         "https://sandbox.academiadevelopers.com/api-auth/",
         {
             method: "POST",
@@ -14,13 +14,14 @@ function Login() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({ username, password }),
-        },
-        triggerFetch
+        }
+        //triggerFetch
     );
 
     function handleSubmit(event) {
         event.preventDefault();
         setTriggerFetch(true);
+        doFetch();
     }
 
     function handleChange(event) {

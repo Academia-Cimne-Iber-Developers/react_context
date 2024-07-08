@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useReducer } from "react";
 
 const ACTIONS = {
     FETCH_INIT: "FETCH_INIT",
@@ -29,33 +29,31 @@ function reducer(state, action) {
     }
 }
 
-function useFetch(url, options = {}, trigger = false) {
+function useFetch(url, options = {}) {
     const [state, dispatch] = useReducer(reducer, {
         isError: false,
         isLoading: true,
     });
 
-    useEffect(() => {
-        if (trigger) {
-            dispatch({ type: ACTIONS.FETCH_INIT });
+    function doFetch(newOptions) {
+        dispatch({ type: ACTIONS.FETCH_INIT });
 
-            fetch(url, { ...options })
-                .then((response) => {
-                    if (response.ok) {
-                        return response.json();
-                    }
-                    throw Error("Error al relizar la petición");
-                })
-                .then((data) => {
-                    dispatch({ type: ACTIONS.FETCH_SUCCESS, payload: data });
-                })
-                .catch((e) => {
-                    dispatch({ type: ACTIONS.FETCH_FAILURE });
-                });
-        }
-    }, [url, trigger]);
+        fetch(url, { ...options, ...newOptions })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw Error("Error al relizar la petición");
+            })
+            .then((data) => {
+                dispatch({ type: ACTIONS.FETCH_SUCCESS, payload: data });
+            })
+            .catch((e) => {
+                dispatch({ type: ACTIONS.FETCH_FAILURE });
+            });
+    }
 
-    return state;
+    return [state, doFetch];
 }
 
 export default useFetch;

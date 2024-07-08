@@ -1,12 +1,17 @@
 import useFetch from "../../hooks/useFetch";
 import SongCard from "./SongCard";
 
+import { useEffect } from "react";
+
 function SongList() {
-    const { data, isError, isLoading } = useFetch(
+    const [{ data, isError, isLoading }, doFetch] = useFetch(
         "https://sandbox.academiadevelopers.com/harmonyhub/songs/",
-        {},
-        true
+        {}
     );
+
+    useEffect(() => {
+        doFetch();
+    }, []);
 
     if (isLoading) return <p>Cargando...</p>;
     if (isError) return <p>Error al cargar las canciones.</p>;
