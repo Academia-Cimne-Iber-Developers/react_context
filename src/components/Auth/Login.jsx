@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
+import { useContext } from "react";
+import { useAuth } from "../../contexts/AuthContext";
 
 function Login() {
     const [username, setUsername] = useState("");
@@ -18,6 +20,8 @@ function Login() {
         //triggerFetch
     );
 
+    const { login } = useAuth("actions");
+
     function handleSubmit(event) {
         event.preventDefault();
         setTriggerFetch(true);
@@ -29,6 +33,12 @@ function Login() {
         if (name === "username") setUsername(value);
         if (name === "password") setPassword(value);
     }
+
+    useEffect(() => {
+        if (data && !isError && triggerFetch) {
+            login(data.token);
+        }
+    }, [data, isError, triggerFetch]);
 
     return (
         <section className="section">
