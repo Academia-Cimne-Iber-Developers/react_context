@@ -1,4 +1,5 @@
 import { createContext, useReducer, useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const AuthContext = createContext({
     state: {},
@@ -31,10 +32,18 @@ function AuthProvider({ children }) {
     const [state, dispatch] = useReducer(reducer, {
         isAuthenticated: false,
     });
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const actions = {
-        login: (token) => dispatch({ type: ACTIONS.LOGIN, payload: token }),
-        logout: () => dispatch({ type: ACTIONS.LOGOUT }),
+        login: (token) => {
+            dispatch({ type: ACTIONS.LOGIN, payload: token });
+            const origin = location.state?.from?.pathname || "/";
+            navigate(origin);
+        },
+        logout: () => {
+            dispatch({ type: ACTIONS.LOGOUT });
+        },
     };
 
     return (

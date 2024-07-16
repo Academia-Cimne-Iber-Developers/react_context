@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
-import { useContext } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 
 function Login() {
