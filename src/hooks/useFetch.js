@@ -1,38 +1,59 @@
-import { useEffect, useState } from "react";
+import { useReducer } from "react";
 
-function useFetch(
-    url,
-    options = {},
-    errorMessage = "Error al relizar la petición"
-) {
-    const [data, setData] = useState(null);
-    const [isError, setIsError] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+const ACTIONS = {
+    FETCH_INIT: "FETCH_INIT",
+    FETCH_SUCCESS: "FETCH_SUCCESS",
+    FETCH_FAILURE: "FETCH_FAILURE",
+};
 
-    useEffect(() => {
-        setData(null);
-        setIsError(false);
-        setIsLoading(true);
+function reducer(state, action) {
+    switch (action.type) {
+        case ACTIONS.FETCH_INIT:
+            return {
+                isError: false,
+                isLoading: true,
+            };
+        case ACTIONS.FETCH_SUCCESS:
+            return {
+                data: action.payload,
+                isError: false,
+                isLoading: false,
+            };
+        case ACTIONS.FETCH_FAILURE:
+            return {
+                isError: true,
+                isLoading: false,
+            };
+        default:
+            return state;
+    }
+}
 
-        fetch(url, { ...options })
+function useFetch(url, options = {}) {
+    const [state, dispatch] = useReducer(reducer, {
+        isError: false,
+        isLoading: true,
+    });
+
+    function doFetch(newOptions) {
+        dispatch({ type: ACTIONS.FETCH_INIT });
+
+        fetch(url, { ...options, ...newOptions })
             .then((response) => {
                 if (response.ok) {
                     return response.json();
                 }
-                throw Error(errorMessage);
+                throw Error("Error al relizar la petición");
             })
             .then((data) => {
-                setData(data);
+                dispatch({ type: ACTIONS.FETCH_SUCCESS, payload: data });
             })
             .catch((e) => {
-                setIsError(true);
-            })
-            .finally(() => {
-                setIsLoading(false);
+                dispatch({ type: ACTIONS.FETCH_FAILURE });
             });
-    }, [url]);
+    }
 
-    return [data, isError, isLoading];
+    return [state, doFetch];
 }
 
 export default useFetch;

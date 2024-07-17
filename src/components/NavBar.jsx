@@ -1,7 +1,12 @@
 import appLogo from "../assets/react.svg";
 import NavMenu from "./NavMenu";
+import { useContext } from "react";
+import ThemeContext from "../contexts/ThemeContext";
+import { Link } from "react-router-dom";
 
-function NavBar({ appName, theme, toggleTheme }) {
+function NavBar({ appName }) {
+    const { theme, toggleTheme } = useContext(ThemeContext);
+
     const backgroundClassName = "has-background-" + theme;
 
     let textClassName = "has-text-";
@@ -23,23 +28,22 @@ function NavBar({ appName, theme, toggleTheme }) {
             >
                 <div className="navbar-brand">
                     <div className="columns is-vcentered">
-                        <a className="navbar-item column" href="/">
+                        <Link className="navbar-item column" to="/">
                             <img
                                 src={appLogo}
                                 alt="App Logo"
                                 className="image is-64x64"
                             />
-                        </a>
+                        </Link>
                         <p className="column">{appName}</p>
                     </div>
                 </div>
                 <NavMenu
                     items={[
-                        { text: "Home", url: "#home" },
-                        { text: "About", url: "#about" },
+                        { text: "Home", url: "/" },
+                        { text: "About", url: "/about" },
                         { text: "Contact", url: "#contact" },
                     ]}
-                    theme={theme}
                 />
                 <button
                     className={`button is-small is-${

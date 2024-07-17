@@ -1,4 +1,9 @@
-function FooterBar({ socialNetworks, appName, theme }) {
+import { useContext } from "react";
+import ThemeContext from "../contexts/ThemeContext";
+
+function FooterBar({ socialNetworks, appName }) {
+    const { theme } = useContext(ThemeContext);
+
     return (
         <footer
             className={`footer ${
