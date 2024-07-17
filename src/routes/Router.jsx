@@ -5,32 +5,37 @@ import Layout from "./Layout";
 import About from "../components/About";
 import ProtectedRoute from "./ProtectedRoute";
 
-const Router = createBrowserRouter([
+const Router = createBrowserRouter(
+    [
+        {
+            element: <Layout />,
+            children: [
+                {
+                    path: "/login",
+                    element: <Login />,
+                },
+                {
+                    index: true, // path: "/"
+                    element: (
+                        <ProtectedRoute>
+                            <SongList />
+                        </ProtectedRoute>
+                    ),
+                },
+                {
+                    path: "/about",
+                    element: (
+                        <ProtectedRoute>
+                            <About />
+                        </ProtectedRoute>
+                    ),
+                },
+            ],
+        },
+    ],
     {
-        element: <Layout />,
-        children: [
-            {
-                path: "/login",
-                element: <Login />,
-            },
-            {
-                index: true, // path: "/"
-                element: (
-                    <ProtectedRoute>
-                        <SongList />
-                    </ProtectedRoute>
-                ),
-            },
-            {
-                path: "/about",
-                element: (
-                    <ProtectedRoute>
-                        <About />
-                    </ProtectedRoute>
-                ),
-            },
-        ],
-    },
-]);
+        basename: "/react_context",
+    }
+);
 
 export default Router;
