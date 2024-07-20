@@ -4,6 +4,7 @@ import SongList from "../components/MusicPlayer/SongList";
 import Layout from "./Layout";
 import About from "../components/About";
 import ProtectedRoute from "./ProtectedRoute";
+import NotFound from "../components/NotFound";
 
 const Router = createBrowserRouter(
     [
@@ -29,6 +30,10 @@ const Router = createBrowserRouter(
                             <About />
                         </ProtectedRoute>
                     ),
+                },
+                {
+                    path: "*",
+                    element: <NotFound />,
                 },
             ],
         },
