@@ -39,7 +39,7 @@ const Router = createBrowserRouter(
         },
     ],
     {
-        basename: "/react_context/",
+        basename: "/react_context",
     }
 );
 
